@@ -1,0 +1,12 @@
+<template>
+  <div>
+    <h1>商品詳細</h1>
+    <ul>
+      <li>
+        <p>商品名：</p>
+        <p>商品価格：</p>
+        <button>カートに入れる</button>
+      </li>
+    </ul>
+  </div>
+</template>
