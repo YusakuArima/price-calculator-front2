@@ -1,41 +1,46 @@
 <template>
-  <div class="container">
-    <h1>商品一覧</h1>
-    <template>
-      <el-table :data="tableProductsApiData" style="width: 100%">
-        <el-table-column prop="id" label="ID" width="180"></el-table-column>
-        <el-table-column prop="productName" label="Name" width="180"></el-table-column>
-        <el-table-column prop="price" label="Price"></el-table-column>
-      </el-table>
-    </template>
+  <div>
+    <b-table :data="tableProductsApiData" :columns="columns" @click="clicked"></b-table>
   </div>
 </template>
 
 <script>
-import Vue from 'vue'
 import productsApi from '~/api/index'
 
-export default Vue.extend({
+export default {
   data() {
     return {
       tableProductsApiData: [],
+      columns: [
+        {
+          field: 'id',
+          label: 'ID',
+          width: '40',
+        },
+        {
+          field: 'productName',
+          label: 'Name',
+          width: '40',
+        },
+        {
+          field: 'price',
+          label: 'Price',
+          width: '40',
+        },
+      ],
     }
-  },
-  methods: {
-    async getProductsApiData() {
-      const res = await productsApi.getProductsApiData()
-      this.tableProductsApiData = res;
-    },
   },
   mounted() {
     this.getProductsApiData()
   },
-})
-</script>
-
-<style scoped>
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
+  methods: {
+    async getProductsApiData() {
+      const res = await productsApi.getProductsApiData()
+      this.tableProductsApiData = res
+    },
+    clicked(onRowClicked) {
+      this.$router.push(`products/${onRowClicked.id}`)
+    },
+  },
 }
-</style>
+</script>
