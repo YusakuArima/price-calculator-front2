@@ -1,0 +1,14 @@
+version: '3'
+
+services:
+  front:
+    build: .
+    tty: true
+    command: npm run dev
+    volumes:
+      - .:/front
+    environment:
+      NODE_ENV: 'development'
+      HOST: 0.0.0.0
+    ports:
+      - '3000:3000'
