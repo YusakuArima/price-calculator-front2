@@ -12,9 +12,16 @@
 import productsApi from '~/api/index'
 
 export default {
+  async asyncData(context) {
+    const res = await productsApi.getProductsApiData()
+    const selectItem = res.find((v) => v.id === context.params.productId)
+    return {
+      tableProductsApiData: [selectItem],
+    }
+  },
   data() {
     return {
-      tableProductsApiData: [],
+      amount: 0,
       columns: [
         {
           field: 'id',
@@ -34,22 +41,13 @@ export default {
       ],
     }
   },
-  mounted() {
-    this.getProductsApiData()
-  },
   methods: {
-    async getProductsApiData() {
-      const res = await productsApi.getProductsApiData()
-      const selectItem = res.find((v) => v.id === this.$route.params.productId)
-      this.tableProductsApiData = [selectItem]
-    },
     addToCart(product, amount) {
       if (amount > 0) {
         this.$buefy.notification.open('カートに追加されました。')
         product.amount = amount
         this.$store.dispatch('cart/addProductToCart', product)
         this.$router.push('/cart')
-        console.log(product)
       } else {
         this.$buefy.notification.open('数量を入力してください。')
       }

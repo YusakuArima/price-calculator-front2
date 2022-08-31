@@ -8,9 +8,14 @@
 import productsApi from '~/api/index'
 
 export default {
+  async asyncData() {
+    const res = await productsApi.getProductsApiData()
+    return {
+      tableProductsApiData: res,
+    }
+  },
   data() {
     return {
-      tableProductsApiData: [],
       columns: [
         {
           field: 'id',
@@ -30,14 +35,8 @@ export default {
       ],
     }
   },
-  mounted() {
-    this.getProductsApiData()
-  },
   methods: {
-    async getProductsApiData() {
-      const res = await productsApi.getProductsApiData()
-      this.tableProductsApiData = res
-    },
+
     clicked(onRowClicked) {
       this.$router.push(`products/${onRowClicked.id}`)
     },
